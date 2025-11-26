@@ -9,5 +9,8 @@
   "keywords": [],
   "author": "Marcel Sprada",
   "license": "ISC",
-  "packageManager": "pnpm@10.6.1"
+  "packageManager": "pnpm@10.6.1",
+  "devDependencies": {
+    "tsc": "^2.0.4"
+  }
 }
