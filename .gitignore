@@ -1,0 +1,5 @@
+# do not add local stuff
+local-content/*
+
+# Mac Specific Index
+.DS_Store
