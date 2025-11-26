@@ -3,3 +3,5 @@ local-content/*
 
 # Mac Specific Index
 .DS_Store
+
+node_modules
