@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import configureEnv from './extensions/config.extension.js';
+import {schema, resolvers} from './plugins/graphQL/types.js'
 
 const fastify = Fastify({
     logger: {
@@ -12,6 +13,17 @@ const fastify = Fastify({
             }
         }
     },
+});
+
+
+//TODO Implement Authentication/ Authorisation
+//TODO Connect to Database
+fastify.register(import('mercurius'), {
+  schema,
+  resolvers,
+  // RECOMMANDATION: do not use in production
+  // for case study we keep it 
+  graphiql: true
 });
 
 // Configure env first
