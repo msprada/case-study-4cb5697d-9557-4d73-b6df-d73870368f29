@@ -16,3 +16,61 @@ For production mode
 ## Learn More
 
 To learn Fastify, check out the [Fastify documentation](https://fastify.dev/docs/latest/).
+
+## Mercurius -  graphQL Plugin For Fastify [mercurius](https://mercurius.dev)
+
+- for detailed manual check out the current documentation 
+
+
+### Example graphQL Statements
+
+```
+# Query Anamnesis Documtens
+
+```
+anamnesisDocuments
+```
+# Add new Anamnesis Document
+
+mutation {
+  createAnamnesisDocument(input: {
+    description: "Brustschmerzen"
+    email: "sarah@example.com"
+  }) {
+    id
+    description
+    email
+  }
+}
+```
+
+
+
+### UI - Dev Mode
+
+- the plugin provides a graphical user interface for debugging your queries
+- the endpoint is "/graphiql"
+
+### Endpoints
+
+- the plugin provides some endpoints where you can process graphQL Queries, Mutation, etc
+- the route is /graphql
+- the body should contain the query in following way
+
+```
+{"query": "query { hello }"}'
+```
+- You can use curl to easily test this endpoint
+e.g. 
+```
+curl -H "Content-Type:application/json" -XPOST -d '{"query": "query { hello }"}' PROTOCOLL://DOMAIN:PORT/graphql
+```
+
+```
+#dev environment
+
+curl -H "Content-Type:application/json" -XPOST -d '{"query": "query { hello }"}' http://localhost:3000/graphql
+```
+
+
+

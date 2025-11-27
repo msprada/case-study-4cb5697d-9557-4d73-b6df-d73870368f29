@@ -62,3 +62,6 @@ dist
 
 # Env
 *.env
+
+#graphql Generated Files
+src/plugins/graphql/generated-files
