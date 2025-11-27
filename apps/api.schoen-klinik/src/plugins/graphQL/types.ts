@@ -1,4 +1,5 @@
 //TODO Extend Schema and resolvers
+//TODO use typeSafed types
 
 export const schema = `
     type Query {
