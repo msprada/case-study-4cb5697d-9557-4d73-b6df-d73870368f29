@@ -22,6 +22,30 @@ To learn Fastify, check out the [Fastify documentation](https://fastify.dev/docs
 - for detailed manual check out the current documentation 
 
 
+### Example graphQL Statements
+
+```
+# Query Anamnesis Documtens
+
+```
+anamnesisDocuments
+```
+# Add new Anamnesis Document
+
+mutation {
+  createAnamnesisDocument(input: {
+    description: "Brustschmerzen"
+    email: "sarah@example.com"
+  }) {
+    id
+    description
+    email
+  }
+}
+```
+
+
+
 ### UI - Dev Mode
 
 - the plugin provides a graphical user interface for debugging your queries
