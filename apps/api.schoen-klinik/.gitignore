@@ -59,3 +59,6 @@ profile*
 
 #Build Files
 dist
+
+# Env
+*.env
