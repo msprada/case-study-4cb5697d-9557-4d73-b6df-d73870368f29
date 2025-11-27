@@ -42,7 +42,7 @@ fastify.get('/', async (request, reply) => {
 const start = async () => {
     try {
         codegenMercurius(fastify, {
-            targetPath: './src/plugins/graphql/generated.ts',
+            targetPath: './src/plugins/graphql/generated-files/generated.ts',
         }).catch(console.error)
 
         await fastify.listen({ port: 3000, host: '0.0.0.0' });
