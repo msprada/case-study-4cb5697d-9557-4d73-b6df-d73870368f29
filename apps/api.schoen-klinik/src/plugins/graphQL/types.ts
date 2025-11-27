@@ -1,7 +1,12 @@
 //TODO Extend Schema and resolvers
 //TODO use typeSafed types
 
-export const schema = `
+import { gql } from "mercurius-codegen";
+import { type IResolvers, type MercuriusContext } from 'mercurius'
+import type { MutationcreateAnamnesisDocumentArgs } from "./generated.js";
+
+
+export const schema = gql`
     type Query {
         hello: String,
         anamnesisDocuments:[AnamnesisDocument!]!
@@ -31,15 +36,15 @@ export let anamnesisDocumentSet = [
 
 let nextId = anamnesisDocumentSet.length+1;
 
-export const resolvers = {
+export const resolvers:IResolvers = {
     Query: {
         hello: async () => 'Hello, Fastify with GraphQL!',
         anamnesisDocuments: async () => anamnesisDocumentSet
     },
     Mutation: {
-        createAnamnesisDocument: async (parent:any, args:any, context:any) => {
+        createAnamnesisDocument: async (parent:{}, args:MutationcreateAnamnesisDocumentArgs, context:MercuriusContext) => {
             const { input } = args;
-            context.app.log.info('Creating new anamnesis document', input);
+            context.app.log.info('Creating new anamnesis document');
 
             const anamnesisDocument = {
                 id: nextId.toString(),
