@@ -1,4 +1,5 @@
 import Fastify from 'fastify';
+import configureEnv from './extensions/config.extension.js';
 
 const fastify = Fastify({
     logger: {
@@ -13,10 +14,13 @@ const fastify = Fastify({
     },
 });
 
+// Configure env first
+await configureEnv(fastify)
+
 
 // Root route
 fastify.get('/', async (request, reply) => {
-    return { message: `Welcome to the API which is the best ever seen. ` };
+    return { message: `Welcome to the API which is the best ever seen. Following config for is active KEY:${fastify.config.KEY}`};
 }); 
 
 // Start server
