@@ -1,9 +1,9 @@
 //TODO Extend Schema and resolvers
-//TODO use typeSafed types
 
 import { gql } from "mercurius-codegen";
 import { type IResolvers, type MercuriusContext } from 'mercurius'
-import type { MutationcreateAnamnesisDocumentArgs } from "./generated.js";
+import type { MutationcreateAnamnesisDocumentArgs } from "./generated-files/generated.js";
+import type { FastifyInstance } from "fastify";
 
 
 export const schema = gql`
@@ -34,23 +34,34 @@ export let anamnesisDocumentSet = [
     { id: "3", description: "Schulterschmerzen", email: "steward@example.com" }
 ];
 
-let nextId = anamnesisDocumentSet.length+1;
+let nextId = anamnesisDocumentSet.length + 1;
 
-export const resolvers:IResolvers = {
+export const resolvers: IResolvers = {
     Query: {
         hello: async () => 'Hello, Fastify with GraphQL!',
         anamnesisDocuments: async () => anamnesisDocumentSet
     },
     Mutation: {
-        createAnamnesisDocument: async (parent:{}, args:MutationcreateAnamnesisDocumentArgs, context:MercuriusContext) => {
+        createAnamnesisDocument: async (parent: {}, args: MutationcreateAnamnesisDocumentArgs, context: MercuriusContext) => {
+            const fastify = context.app as FastifyInstance;
+            const prisma = fastify.prisma;
             const { input } = args;
-            context.app.log.info('Creating new anamnesis document');
 
-            const anamnesisDocument = {
+            //TODO: Persist  to DB using Prisma
+             const anamnesisDocument = {
                 id: nextId.toString(),
                 ...input
             };
 
+            await prisma.anamnesisDocument.create({
+                data:{...anamnesisDocument}
+            });
+            
+
+           
+            context.app.log.info('Creating new anamnesis document');
+
+            
             anamnesisDocumentSet.push(anamnesisDocument);
             nextId++;
 
