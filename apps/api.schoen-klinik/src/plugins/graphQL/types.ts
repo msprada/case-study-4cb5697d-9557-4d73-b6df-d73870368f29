@@ -4,6 +4,7 @@ import { gql } from "mercurius-codegen";
 import { type IResolvers, type MercuriusContext } from 'mercurius'
 import type { MutationcreateAnamnesisDocumentArgs } from "./generated-files/generated.js";
 import type { FastifyInstance } from "fastify";
+import { PrismaClient } from "../database/prisma/generated/prisma/client.js";
 
 
 export const schema = gql`
@@ -44,17 +45,20 @@ export const resolvers: IResolvers = {
     Mutation: {
         createAnamnesisDocument: async (parent: {}, args: MutationcreateAnamnesisDocumentArgs, context: MercuriusContext) => {
             const fastify = context.app as FastifyInstance;
-            const prisma = fastify.prisma;
+            const prisma = fastify.prisma as PrismaClient;
             const { input } = args;
 
             //TODO: Persist  to DB using Prisma
              const anamnesisDocument = {
-                id: nextId.toString(),
-                ...input
+                description: input.description,
+                email: input.email
             };
 
-            await prisma.anamnesisDocument.create({
-                data:{...anamnesisDocument}
+            const created = await prisma.anamnesisDocument.create({
+                data:{
+                    description: anamnesisDocument.description,
+                    email: anamnesisDocument.email
+                }
             });
             
 
@@ -62,10 +66,8 @@ export const resolvers: IResolvers = {
             context.app.log.info('Creating new anamnesis document');
 
             
-            anamnesisDocumentSet.push(anamnesisDocument);
-            nextId++;
 
-            return anamnesisDocument;
+            return created;
         }
     },
 };
