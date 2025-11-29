@@ -1,6 +1,7 @@
 //TODO Extend Schema and resolvers
 
 import { gql } from "mercurius-codegen";
+import { GraphQLError } from "graphql";
 import { type IResolvers, type MercuriusContext } from 'mercurius'
 import type { MutationcreateAnamnesisDocumentArgs } from "./generated-files/generated.js";
 import type { FastifyInstance } from "fastify";
@@ -48,26 +49,33 @@ export const resolvers: IResolvers = {
             const prisma = fastify.prisma as PrismaClient;
             const { input } = args;
 
-            //TODO: Persist  to DB using Prisma
-             const anamnesisDocument = {
-                description: input.description,
-                email: input.email
-            };
+            try {
+                 const created = await prisma.anamnesisDocument.create({
+                    data: {
+                        ...input
+                    }
+                });
 
-            const created = await prisma.anamnesisDocument.create({
-                data:{
-                    description: anamnesisDocument.description,
-                    email: anamnesisDocument.email
+                context.app.log.info('Creating new anamnesis document');
+                return created;
+            }
+            catch (error:unknown) {
+
+                switch (true) {
+                    case error instanceof Error && error.message.includes('validation'):
+                        context.app.log.error(`Failed to create anamnesis document: ${error.message}`);
+                        throw new GraphQLError('Invalid input data', {
+                            extensions: { code: 'BAD_USER_INPUT' }
+                        });
+                    default: {
+                        context.app.log.error(`Failed to create anamnesis document resulting following: ${String(error)}`);
+                          throw new GraphQLError('Failed to create anamnesis document', {
+                            extensions: { code: 'INTERNAL_SERVER_ERROR' }
+                        });
+                    }
                 }
-            });
-            
-
-           
-            context.app.log.info('Creating new anamnesis document');
-
-            
-
-            return created;
+                
+            }    
         }
     },
 };
