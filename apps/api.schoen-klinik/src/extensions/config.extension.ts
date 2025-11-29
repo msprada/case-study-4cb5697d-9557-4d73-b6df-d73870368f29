@@ -1,11 +1,13 @@
 import fastifyEnv from "@fastify/env";
 import { type FastifyInstance } from "fastify";
+import type { PrismaClient } from "@prisma/client/extension";
 
 const schema = {
     type: "object",
-    required: ["KEY"],
+    required: ["KEY", "DATABASE_URL"],
     properties: {
         KEY: { type: "string", default: "" },
+        DATABASE_URL: { type: "string", default: "file:./data/schon-klinik.db" }
     },
 } as const;
 
@@ -19,7 +21,9 @@ declare module "fastify" {
     interface FastifyInstance {
         config: {
             KEY: string;
-        }
+            DATABASE_URL:string
+        },
+        prisma: PrismaClient
     }
 };
 

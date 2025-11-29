@@ -1,0 +1,19 @@
+services:
+  mongodb:
+    hostname: mongodb
+    container_name: mongodb
+    image: mongodb/mongodb-atlas-local
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=admin-user
+      - MONGODB_INITDB_ROOT_PASSWORD=admin
+      - MONGO_INITDB_DATABASE=schoen-klinik
+      - RUNNER_LOG_FILE=/dev/stderr
+    ports:
+      - 27019:27017
+    volumes:
+      - data:/data/db
+      - config:/data/configdb
+      - ./init-db:/docker-entrypoint-initdb.d
+volumes:
+  data:
+  config:
