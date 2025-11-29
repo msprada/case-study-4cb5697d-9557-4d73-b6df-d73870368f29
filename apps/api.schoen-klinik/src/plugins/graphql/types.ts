@@ -5,7 +5,7 @@ import { GraphQLError } from "graphql";
 import { type IResolvers, type MercuriusContext } from 'mercurius'
 import type { MutationcreateAnamnesisDocumentArgs } from "./generated-files/generated.js";
 import type { FastifyInstance } from "fastify";
-import { PrismaClient } from "../database/prisma/generated/prisma/client.js";
+import { PrismaClient, Prisma } from "../database/prisma/generated/prisma/client.js";
 
 
 export const schema = gql`
@@ -30,18 +30,46 @@ export const schema = gql`
     }
 `;
 
-export let anamnesisDocumentSet = [
-    { id: "1", description: "Husten", email: "alex@example.com" },
-    { id: "2", description: "Bauchschmerzen", email: "marvin@example.com" },
-    { id: "3", description: "Schulterschmerzen", email: "steward@example.com" }
-];
-
-let nextId = anamnesisDocumentSet.length + 1;
-
 export const resolvers: IResolvers = {
     Query: {
-        hello: async () => 'Hello, Fastify with GraphQL!',
-        anamnesisDocuments: async () => anamnesisDocumentSet
+        hello: async () => `Hello, Fastify with GraphQL. I'm alive!`,
+        anamnesisDocuments: async (
+            parent: {},
+            args: {},
+            context: MercuriusContext
+        ): Promise<Array<{ id: string; description: string; email: string }>> => {
+            const fastify = context.app as FastifyInstance;
+            const prisma = fastify.prisma as PrismaClient;
+
+            try {
+                const resultSet = await prisma.anamnesisDocument.findMany();
+                return resultSet.length ? resultSet : []
+
+            }
+            catch (error: unknown) {
+
+                switch (true) {
+                    case error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025':
+                        context.app.log.error(`Document not found: ${error.message}`);
+                        throw new GraphQLError('Document not found', {
+                            extensions: { code: 'NOT_FOUND' }
+                        });
+
+                    case error instanceof Error: {
+                        context.app.log.error(`Failed to receive data: ${error.message}`);
+                        throw new GraphQLError('Could not read data from db.', {
+                            extensions: { code: 'INTERNAL_SERVER_ERROR' }
+                        });
+                    }
+
+                    default:
+                        throw new GraphQLError('Could not read data from db.', {
+                            extensions: { code: 'INTERNAL_SERVER_ERROR' }
+                        });
+                }
+            }
+
+        }
     },
     Mutation: {
         createAnamnesisDocument: async (parent: {}, args: MutationcreateAnamnesisDocumentArgs, context: MercuriusContext) => {
@@ -50,7 +78,7 @@ export const resolvers: IResolvers = {
             const { input } = args;
 
             try {
-                 const created = await prisma.anamnesisDocument.create({
+                const created = await prisma.anamnesisDocument.create({
                     data: {
                         ...input
                     }
@@ -59,7 +87,7 @@ export const resolvers: IResolvers = {
                 context.app.log.info('Creating new anamnesis document');
                 return created;
             }
-            catch (error:unknown) {
+            catch (error: unknown) {
 
                 switch (true) {
                     case error instanceof Error && error.message.includes('validation'):
@@ -69,13 +97,13 @@ export const resolvers: IResolvers = {
                         });
                     default: {
                         context.app.log.error(`Failed to create anamnesis document resulting following: ${String(error)}`);
-                          throw new GraphQLError('Failed to create anamnesis document', {
+                        throw new GraphQLError('Failed to create anamnesis document', {
                             extensions: { code: 'INTERNAL_SERVER_ERROR' }
                         });
                     }
                 }
-                
-            }    
+
+            }
         }
     },
 };
