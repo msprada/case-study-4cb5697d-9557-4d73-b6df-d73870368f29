@@ -15,9 +15,9 @@ datasource db {
 }
 
 model AnamnesisDocument {
-  id        String   @id @default(uuid()) @map("_id")
+  id          String   @id @default(uuid()) @map("_id")
   description String
-  email     String
+  email       String
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
