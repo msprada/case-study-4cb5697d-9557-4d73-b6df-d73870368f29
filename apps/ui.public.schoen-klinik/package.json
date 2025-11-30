@@ -6,16 +6,20 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "prisma:gen": "prisma generate --config ./app/prisma/prisma.config.ts",
+    "prisma:db:push": "prisma db push --config ./app/prisma/prisma.config.ts"
   },
   "dependencies": {
+    "@prisma/client": "^6.18.0",
     "@react-router/fs-routes": "^7.9.6",
     "@react-router/node": "^7.9.2",
     "@react-router/serve": "^7.9.2",
     "isbot": "^5.1.31",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router": "^7.9.2"
+    "react-router": "^7.9.2",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@react-router/dev": "^7.9.2",
@@ -23,6 +27,7 @@
     "@types/node": "^22",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
+    "prisma": "^6.19.0",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",
     "vite": "^7.1.7",
