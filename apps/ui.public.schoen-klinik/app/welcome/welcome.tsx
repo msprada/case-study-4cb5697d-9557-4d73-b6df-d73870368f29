@@ -38,6 +38,17 @@ export function Welcome() {
                   </a>
                 </li>
               ))}
+              <li>
+                  <a
+                    className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
+                    href={"sign-in"}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                  
+                    SignIn
+                  </a>
+                </li>
             </ul>
           </nav>
         </div>
