@@ -31,26 +31,37 @@ export async function action({
 
 
 
-  let formData = await request.formData();
-  let title = formData.get("title");
+  const formData = await request.formData();
+  const title = formData.get("title");
+  const content = formData.get("content");
+  const email = formData.get("email");
 
 
-  const apiUrl = `${process.env.API_URL}/anamnesis`;
+
+
 
   try {
     if (!process.env.API_RESSOURCE_ANAMNESIS_URL) {
       throw new Error("API_RESSOURCE_ANAMNESIS_URL is not defined");
     }
 
+    const apiUrl = `${process.env.API_RESSOURCE_ANAMNESIS_URL}`;
+    const payload = { title: title, content: content, email: email };
+    const body = JSON.stringify(payload)
+
     const res = await fetch(apiUrl, {
       headers: {
-        Authorization: `Bearer ${process.env.API_TOKEN}`,
+        // Authorization: `Bearer ${process.env.API_TOKEN}`,
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        'Accept': 'application/json'
       },
       method: "POST",
-      body: JSON.stringify({ title }),
+      body: body,
     });
 
     const data = await res.json();
+    console.log("Response from API:", data);
 
     return { title: title ? title.toString() : "fallback" };
   }
@@ -80,7 +91,9 @@ export default function Anamnesis({
     (tempLink && typeof tempLink === 'object' && 'id' in tempLink && tempLink.id) ? (<div>
       <h1>Anamnese Bogen</h1>
       <Form method="post">
-        <input type="text" name="title" />
+        <input type="text" name="title" value="Test Title FE New" />
+        <input type="text" name="content" value="Content Test FE New" />
+        <input type="email" name="email" value="email@email.de" />
         <button type="submit">Submit</button>
       </Form>
       {title ? (
