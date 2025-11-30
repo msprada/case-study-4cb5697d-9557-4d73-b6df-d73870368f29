@@ -20,6 +20,7 @@
   "packageManager": "pnpm@10.17.0",
   "type": "module",
   "dependencies": {
+    "@fastify/cors": "^11.1.0",
     "@fastify/env": "^5.0.3",
     "@prisma/client": "^6.18.0",
     "dotenv": "^17.2.3",
