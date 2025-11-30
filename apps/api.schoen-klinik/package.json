@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
+    "json-schema-to-ts": "^3.1.1",
     "nodemon": "^3.1.11",
     "prettier": "^3.7.0",
     "prisma": "^6.19.0",
