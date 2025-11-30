@@ -1,4 +1,5 @@
 import Fastify from 'fastify';
+import cors from '@fastify/cors';
 import configureEnv from './extensions/config.extension.js';
 import { schema, resolvers } from './plugins/graphql/types.js'
 import { codegenMercurius } from 'mercurius-codegen';
@@ -37,6 +38,10 @@ await configureEnv(fastify);
 // Enable Prisma Client
 await fastify.register(prismaPlugin);
 
+await fastify.register(cors, {
+    origin: '*',
+})
+
 // Register route plugins
 await fastify.register(anamnesisRoutes, { prefix: '/api/anamnesis' })
 
@@ -58,5 +63,9 @@ const start = async () => {
         process.exit(1);
     }
 };
+
+fastify.addHook('preValidation', async function hook (request, reply) {
+    console.log({ headers: request.headers, url: request.url, method: request.method, body:request.body })
+  })
 
 start()
