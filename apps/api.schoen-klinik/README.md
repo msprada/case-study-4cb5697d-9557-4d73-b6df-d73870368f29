@@ -51,7 +51,7 @@ mutation {
 - the plugin provides a graphical user interface for debugging your queries
 - the endpoint is "/graphiql"
 
-### Endpoints
+### GrapphQL Resolver
 
 - the plugin provides some endpoints where you can process graphQL Queries, Mutation, etc
 - the route is /graphql
@@ -71,6 +71,21 @@ curl -H "Content-Type:application/json" -XPOST -d '{"query": "query { hello }"}'
 
 curl -H "Content-Type:application/json" -XPOST -d '{"query": "query { hello }"}' http://localhost:3000/graphql
 ```
+
+## REST API 
+- additional to an graphQL there is also a REST API
+
+### Endpoints
+
+#### Ressource - Anamnesis Document
+
+##### Create Document
+
+```
+curl -H "Content-Type:application/json" -XPOST -d '{"title": "TestTitle", "content":"Test Content", "email": "test@mail.com"}' http://localhost:3000/api/anamnesis
+```
+
+
 
 
 
