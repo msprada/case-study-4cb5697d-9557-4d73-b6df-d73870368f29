@@ -6,5 +6,6 @@
 /.react-router/
 /build/
 
-#Prisma Generated Client
+#Prisma Generated Client and local DB
 /app/prisma/generated/
+/app/prisma/dev.db
