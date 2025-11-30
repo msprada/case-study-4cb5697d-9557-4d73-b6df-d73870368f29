@@ -1,4 +1,4 @@
-import type { Route } from "./+types/anamnesis";
+import type { Route } from "./+types/anamnesis.$id";
 import { Form } from "react-router";
 import prisma from "../utils/prisma.server";
 
