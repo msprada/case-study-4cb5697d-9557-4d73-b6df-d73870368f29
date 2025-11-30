@@ -2,10 +2,15 @@ import { Form, data } from "react-router";
 import type { Route } from "./+types/sign-in";
 import prisma  from "../utils/prisma.server";
 
-function genereateTempLink(email: string, url:URL) {
 
+function generateToken(email: string) {
     const guid = crypto.randomUUID();
-    return `${url.protocol}//${url.host}/anamnesis?id=${encodeURIComponent(`${email}-${guid}`)}`;
+    return `${email}-${guid}`;
+}
+
+
+function genereateTempLink(token:string, url:URL) {
+    return `${url.protocol}//${url.host}/anamnesis/${encodeURIComponent(token)}`;
 }
 
 export function meta({ }: Route.MetaArgs) {
@@ -32,9 +37,14 @@ export async function action({
         return data({ errors }, { status: 400 });
     }
 
-     const tempLink = genereateTempLink(email,url);
+    const token = generateToken(email);
+    const tempLink = genereateTempLink(token,url);
+  
+
+
      const tempLinks = await prisma.tempLink.create({
         data: {
+            id: token,
             email: email,
             tempLink: tempLink
         }
