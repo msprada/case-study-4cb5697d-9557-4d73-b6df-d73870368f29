@@ -16,11 +16,11 @@ try {
   }
 
     // seed example collection
-    db.anamnesisDocuments.insertMany([
-        { id: "e54bc06b-a8a4-498e-8cf9-8683eecd4b11", description: "Husten", email: "alex@example.com", createdAt: new Date() },
-        { id: "81b4b92f-9543-44e5-823a-c748d003aa40", description: "Bauchschmerzen", email: "marvin@example.com", createdAt: new Date() },
-        { id: "9f50dc0a-8462-41a5-b0f6-e977732cd52a", description: "Schulterschmerzen", email: "steward@example.com", createdAt: new Date() }
-    ]);
+    // db.anamnesisDocuments.insertMany([
+    //     { id: "e54bc06b-a8a4-498e-8cf9-8683eecd4b11", description: "Husten", email: "alex@example.com", createdAt: new Date() },
+    //     { id: "81b4b92f-9543-44e5-823a-c748d003aa40", description: "Bauchschmerzen", email: "marvin@example.com", createdAt: new Date() },
+    //     { id: "9f50dc0a-8462-41a5-b0f6-e977732cd52a", description: "Schulterschmerzen", email: "steward@example.com", createdAt: new Date() }
+    // ]);
     print("Seeded anamnesisDocuments");
 } catch (err) {
     print("Init script error:", err);
