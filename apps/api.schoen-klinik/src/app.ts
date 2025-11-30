@@ -3,6 +3,7 @@ import configureEnv from './extensions/config.extension.js';
 import { schema, resolvers } from './plugins/graphql/types.js'
 import { codegenMercurius } from 'mercurius-codegen';
 import prismaPlugin from './plugins/database/prisma.plugin.js';
+import anamnesisRoutes from './routes/anamnesis.js';
 
 const fastify = Fastify({
     logger: {
@@ -31,11 +32,13 @@ fastify.register(import('mercurius'), {
 
 
 // Configure env first
-await configureEnv(fastify)
+await configureEnv(fastify);
 
 // Enable Prisma Client
 await fastify.register(prismaPlugin);
 
+// Register route plugins
+await fastify.register(anamnesisRoutes, { prefix: '/api/anamnesis' })
 
 // Root route
 fastify.get('/', async (request, reply) => {
