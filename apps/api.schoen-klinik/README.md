@@ -34,11 +34,11 @@ anamnesisDocuments
 
 mutation {
   createAnamnesisDocument(input: {
-    description: "Brustschmerzen"
+    mainMedicalDisorder: "Brustschmerzen",
     email: "sarah@example.com"
   }) {
     id
-    description
+    mainMedicalDisorder
     email
   }
 }
