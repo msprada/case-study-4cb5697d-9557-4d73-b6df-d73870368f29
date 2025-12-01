@@ -36,7 +36,7 @@ export async function action({
   const address = formData.get("address");
   const mainMedicalDisorder = formData.get("mainMedicalDisorder");
   const furtherMedicalDisorder = formData.get("furtherMedicalDisorder");
-
+  const dummyMail=formData.get("email")
 
   if (!firstname) {
     errors.firstname = "Bitte geben Sie ein ihren Vornamen an.";
@@ -66,7 +66,7 @@ export async function action({
     }
 
     const apiUrl = `${process.env.API_RESSOURCE_ANAMNESIS_URL}`;
-    const payload = { firstname: firstname, lastname: lastname, address: address, mainMedicalDisorder: mainMedicalDisorder, furtherMedicalDisorder: furtherMedicalDisorder };
+    const payload = { firstname: firstname, lastname: lastname, address: address, mainMedicalDisorder: mainMedicalDisorder, furtherMedicalDisorder: furtherMedicalDisorder, email: dummyMail };
     const body = JSON.stringify(payload)
 
     const res = await fetch(apiUrl, {
@@ -172,6 +172,7 @@ export default function Anamnesis({
         <div className="flex flex-row justify-end gap-2 mb-4">
           <button className="btn text-white bg-orange-500 rounded-full w-64" type="submit">Absenden</button>
         </div>
+        <input type="hidden" value="dummy@mail.de" name="email"></input>
       </Form>
       {submitted ? (
         <p>wurde erfolgreich versendet!</p>
