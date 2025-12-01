@@ -10,6 +10,9 @@
     - 2.1.2 [Anamnesebogen (AB)](#anamnesebogen-ab)
       - [AB - Prozess](#ab---prozess)
     - 2.1.3[Persistierung der Anamnese Daten](#persistierung-der-anamnese-daten)
+- 3.[Konzept](#konzept)
+  - 3.1 [Design der Entitäten](#design-der-entitäten--funktionale-amnforderung-1)
+    - 3.1.1 [Tempöres Login](#temporäres-login-hier)
 
 ## Aufgabenstellung
 
@@ -19,6 +22,9 @@ Aufgabe ist es eine zweiteilige Applikation zu bauen, bestehend aus einem Anamne
 
 #### Muss
 
+<ul>
+  <li id="functional-requirements-entities">1. Design der Applikation und Entitäten sollte einem nachvollziehbaren Konzept folgen</li>
+</ul>
 - Design der Applikation und Entitäten sollte einem nachvollziehbaren Konzept folgen
 - Konzepte für Authentifizierung/Autorisierung und Security für Backoffice Applikation und öffentlichem Anamnesebogen
 - Performance Pitfalls sind entweder markiert als TODO oder entsprechend vermieden
@@ -86,3 +92,53 @@ Es ist nicht notwendig die Applikation an allen Stellen zu 100% auszuprogrammier
 
 - via listener auf der queue werden die Nachrichten entpackt und die resultierenden Daten in der MongoDB persisitert
   - Struktur: tbd
+
+## Konzept
+
+### Design der Entitäten -[Funktionale Anforderung-1](#functional-requirements-entities)
+
+#### Temporäres Login [link zur Story](#temporäres-login-hier)
+
+#### TempLink (SQL Lite)
+
+| Spalte         | Typ     | Format | Info|
+|--------------|-----------|------------|--------|
+| id | String      | UUID (PK)        |identifier of templink |
+| tempLink      | String  |  Full Qualified Url      |Debug Only"|
+| email      | String  | Email       |Identifer of Public User|
+| processed      | Boolean  |        |Set to true if Anamnesis Document was submitted|
+| createdAt      | DateTime  | UNIX TIMESTAMP       | Date.Now() |
+| updatedAt      | DateTime  | UNIX TIMESTAMP       |Last Change|
+
+#### Anamnesebogen (mongoDB)
+
+#### AnamnesisDocument
+
+| Spalte         | Typ     | Format | Info|
+|--------------|-----------|------------|--------|
+| id | String      | UUID (PK)        | |
+| mainMedicalDisorder      | String  |        ||
+| furtherMedicalDisorder      | String  |        ||
+| since      | DateTime  |        ||
+| notes      | String  |        ||
+| User      | Object  |        |Relation to User Document|
+| createdAt      | DateTime  | UNIX TIMESTAMP       | Date.Now() |
+| updatedAt      | DateTime  | UNIX TIMESTAMP       |Last Change|
+| ...      | ...  |     ...   |...|
+
+#### User
+
+| Spalte         | Typ     | Format | Info|
+|--------------|-----------|------------|--------|
+| id | String      | UUID (PK)        |auto-creation |
+| firstname      | String  |        ||
+| lastname      | String  |        ||
+| birthdate      | DateTime  |        ||
+| address      | String  |        ||
+| phone      | String  |        ||
+| mobile      | String  |        ||
+| gender      | string  |        ||
+| email      | String (unique)  |        |Identifer of Public User|
+| createdAt      | DateTime  | UNIX TIMESTAMP       | Date.Now() |
+| updatedAt      | DateTime  | UNIX TIMESTAMP       |Last Change|
+| ...      | ...  |     ...   |...|
