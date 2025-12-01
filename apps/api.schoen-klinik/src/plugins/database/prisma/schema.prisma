@@ -15,11 +15,34 @@ datasource db {
 }
 
 model AnamnesisDocument {
-  id          String   @id @default(uuid()) @map("_id")
-  description String
-  email       String
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id                     String   @id @default(uuid()) @map("_id")
+  mainMedicalDisorder    String
+  furtherMedicalDisorder String?
+  since                  DateTime
+  notes                  String?
+  //TODO Implement Relation in Backenend - b07deec2-056f-4191-98f5-1415c8daa98b
+  User                   User?    @relation(fields: [userId], references: [id])
+  email                  String
+  createdAt              DateTime @default(now()) @map("created_at")
+  updatedAt              DateTime @updatedAt @map("updated_at")
+  userId                 String?
 
   @@map("anamnesisDocs")
+}
+
+model User {
+  id                 String              @id @default(uuid()) @map("_id")
+  firstname          String
+  lastname           String
+  bithdate           DateTime?
+  address            String
+  phone              String?
+  mobile             String?
+  gender             String?
+  email              String
+  createdAt          DateTime            @default(now()) @map("created_at")
+  updatedAt          DateTime            @updatedAt @map("updated_at")
+  anamnesisDocuments AnamnesisDocument[]
+
+  @@map("Users")
 }
