@@ -1,5 +1,5 @@
 import type { Route } from "./+types/anamnesis.$id";
-import { data, Form } from "react-router";
+import { data, Form, Link } from "react-router";
 import prisma from "../utils/prisma.server";
 
 export function meta({ }: Route.MetaArgs) {
@@ -29,15 +29,35 @@ export async function action({
   request,
 }: Route.ActionArgs) {
 
-
-
+  const errors = {} as { firstname?: string, lastname?: string, address?: string, mainMedicalDisorder?: string };
   const formData = await request.formData();
-  const title = formData.get("title");
-  const content = formData.get("content");
-  const email = formData.get("email");
+  const firstname = formData.get("firstname");
+  const lastname = formData.get("lastname");
+  const address = formData.get("address");
+  const mainMedicalDisorder = formData.get("mainMedicalDisorder");
+  const furtherMedicalDisorder = formData.get("furtherMedicalDisorder");
 
 
+  if (!firstname) {
+    errors.firstname = "Bitte geben Sie ein ihren Vornamen an.";
+  }
 
+  if (!lastname) {
+    errors.lastname = "Bitte geben Sie ein ihren Nachnamen an.";
+  }
+
+  if (!address) {
+    errors.address = "Bitte geben Sie ein ihre Adresse an.";
+  }
+
+  if (!mainMedicalDisorder) {
+    errors.mainMedicalDisorder = "Bitte geben Sie ein ihre Hauptbeschwerde an.";
+  }
+
+
+  if (Object.keys(errors).length > 0) {
+    return data({ errors }, { status: 400 });
+  }
 
 
   try {
@@ -46,14 +66,14 @@ export async function action({
     }
 
     const apiUrl = `${process.env.API_RESSOURCE_ANAMNESIS_URL}`;
-    const payload = { title: title, content: content, email: email };
+    const payload = { firstname: firstname, lastname: lastname, address: address, mainMedicalDisorder: mainMedicalDisorder, furtherMedicalDisorder: furtherMedicalDisorder };
     const body = JSON.stringify(payload)
 
     const res = await fetch(apiUrl, {
       headers: {
         // Authorization: `Bearer ${process.env.API_TOKEN}`,
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin': '*',
         'Accept': 'application/json'
       },
       method: "POST",
@@ -63,7 +83,7 @@ export async function action({
     const data = await res.json();
     console.log("Response from API:", data);
 
-    return { title: title ? title.toString() : "fallback" };
+    return { submitted: true };
   }
 
   catch (error) {
@@ -80,26 +100,83 @@ export default function Anamnesis({
 
   const { tempLink } = loaderData;
 
-  let title;
+  let submitted, errors;
 
-  if (actionData && typeof actionData === "object" && 'title' in actionData) {
-    title = actionData.title;
+  if (actionData && typeof actionData === "object" && 'errors' in actionData) {
+    errors = actionData.errors;
+  }
+
+  if (actionData && typeof actionData === "object" && 'submitted' in actionData) {
+    submitted = actionData.submitted;
   }
 
   return (
 
     (tempLink && typeof tempLink === 'object' && 'id' in tempLink && tempLink.id) ? (<div>
-      <h1>Anamnese Bogen</h1>
+
+      <div className="flex flex-col mb-4">
+        <h1>Anamnese Bogen</h1>
+        <p>Bitte füllen Sie Anamnesebogen aus und best&auml;tigen Sie im Anschluss die Schaltfläche.</p>
+      </div>
       <Form method="post">
-        <input type="text" name="title" value="Test Title FE New" />
-        <input type="text" name="content" value="Content Test FE New" />
-        <input type="email" name="email" value="email@email.de" />
-        <button type="submit">Submit</button>
+        <legend className="mb-4"><i>Registrierungsformular</i></legend>
+        <fieldset>
+          <div className="flex flex-row justify-end gap-2 mb-4">
+            <label htmlFor="firstname">
+              Vorname:
+            </label>
+            <input className="border-2 boder-solid" aria-required type="text" name="firstname" id="firstname" />
+          </div>
+          <div className="flex flex-row justify-end gap-2 mb-4">
+            <span><strong>{errors?.firstname ? <p style={{ color: "red" }}>{errors.firstname}</p> : null}</strong></span>
+          </div>
+
+          <div className="flex flex-row justify-end gap-2 mb-4">
+            <label htmlFor="lastname">
+              Nachname:
+            </label>
+            <input className="border-2 boder-solid" aria-required type="text" name="lastname" id="lastname" />
+          </div>
+          <div className="flex flex-row justify-end gap-2 mb-4">
+            <span><strong>{errors?.lastname ? <p style={{ color: "red" }}>{errors.lastname}</p> : null}</strong></span>
+          </div>
+
+          <div className="flex flex-row justify-end gap-2 mb-4">
+            <label htmlFor="address">
+              Adresse:
+            </label>
+            <input className="border-2 boder-solid" aria-required type="text" name="address" id="address" />
+          </div>
+          <div className="flex flex-row justify-end gap-2 mb-4">
+            <span><strong>{errors?.address ? <p style={{ color: "red" }}>{errors.address}</p> : null}</strong></span>
+          </div>
+
+          <div className="flex flex-row justify-end gap-2 mb-4">
+            <label htmlFor="mainMedicalDisorder">
+              Hauptbeschwerde:
+            </label>
+            <input className="border-2 boder-solid" aria-required type="text" name="mainMedicalDisorder" id="mainMedicalDisorder" />
+          </div>
+          <div className="flex flex-row justify-end gap-2 mb-4">
+            <span><strong>{errors?.mainMedicalDisorder ? <p style={{ color: "red" }}>{errors.mainMedicalDisorder}</p> : null}</strong></span>
+          </div>
+
+          <div className="flex flex-row justify-end gap-2 mb-4">
+            <label htmlFor="furtherMedicalDisorder">
+              Weitere Beschwerden:
+            </label>
+            <input className="border-2 boder-solid" type="text" name="furtherMedicalDisorder" id="furtherMedicalDisorder" />
+          </div>
+
+        </fieldset>
+        <div className="flex flex-row justify-end gap-2 mb-4">
+          <button className="btn text-white bg-orange-500 rounded-full w-64" type="submit">Absenden</button>
+        </div>
       </Form>
-      {title ? (
-        <p>{title} updated</p>
+      {submitted ? (
+        <p>wurde erfolgreich versendet!</p>
       ) : null}
-    </div>) : <p>You are not allowed to see the document!</p>
+    </div>) : <p>Sie haben keine gültige Anmeldung und können den Anmeldebogen nicht aufrufen. Bitte erstellen Sie in Login. <Link to={{ pathname: "/sign-in", }}>hier geht es zu Anmeldung</Link></p>
 
   )
 }
