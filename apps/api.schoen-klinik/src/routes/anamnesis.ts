@@ -15,9 +15,9 @@ async function anamnesisRoutes(fastify: FastifyInstance, options: FastifyPluginO
     }, async (request, reply) => {
         try {
 
-            const {title, content, email} =request.body
+            const {firstname, lastname, address, email, mainMedicalDisorder, furtherMedicalDisorder,notes} =request.body
 
-            console.log({title, content, email});
+            console.log({body: request.body});
 
             if(!email){
                 reply.code(400).send({ error: 'Email is required' });
@@ -26,8 +26,10 @@ async function anamnesisRoutes(fastify: FastifyInstance, options: FastifyPluginO
 
             const newAnamnesisDocument = await fastify.prisma.anamnesisDocument.create({
                 data: {
-                    description:content,
-                    email:email,
+                    mainMedicalDisorder:mainMedicalDisorder,
+                    furtherMedicalDisorder:furtherMedicalDisorder,
+                    notes:notes,
+                    email:email
                 }
             });
             reply.code(201).send(newAnamnesisDocument);
