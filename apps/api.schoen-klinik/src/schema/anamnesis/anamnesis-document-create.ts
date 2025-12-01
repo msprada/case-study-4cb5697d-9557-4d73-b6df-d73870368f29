@@ -13,10 +13,15 @@ const anamnesisDocumentJsonSchema = {
 
 const anamnesisDocumentBodyJsonSchema = {
     type: 'object',
+    required:["firstname", "lastname", "address", "email", "mainMedicalDisorder"],
     properties: {
-        title: { type: 'string' },
-        content: { type: 'string' },
-        email: { type: 'string', format: 'email' }
+        firstname: { type: 'string' },
+        lastname: { type: 'string' },
+        address: { type: 'string' },
+        email: { type: 'string', format: 'email' },
+        mainMedicalDisorder:{type:'string'},
+        furtherMedicalDisorder: {type: 'string'},
+        notes: {type:'string'}
     }
 } as const;
 
