@@ -118,9 +118,9 @@ Es ist nicht notwendig die Applikation an allen Stellen zu 100% auszuprogrammier
 |--------------|-----------|------------|--------|
 | id | String      | UUID (PK)        | |
 | mainMedicalDisorder      | String  |        ||
-| furtherMedicalDisorder      | String  |        ||
+| furtherMedicalDisorder      | String?  |        ||
 | since      | DateTime  |        ||
-| notes      | String  |        ||
+| notes      | String?  |        ||
 | User      | Object  |        |Relation to User Document|
 | createdAt      | DateTime  | UNIX TIMESTAMP       | Date.Now() |
 | updatedAt      | DateTime  | UNIX TIMESTAMP       |Last Change|
@@ -133,11 +133,11 @@ Es ist nicht notwendig die Applikation an allen Stellen zu 100% auszuprogrammier
 | id | String      | UUID (PK)        |auto-creation |
 | firstname      | String  |        ||
 | lastname      | String  |        ||
-| birthdate      | DateTime  |        ||
+| birthdate      | DateTime?  |        ||
 | address      | String  |        ||
-| phone      | String  |        ||
-| mobile      | String  |        ||
-| gender      | string  |        ||
+| phone      | String?  |        ||
+| mobile      | String?  |        ||
+| gender      | string?  |        ||
 | email      | String (unique)  |        |Identifer of Public User|
 | createdAt      | DateTime  | UNIX TIMESTAMP       | Date.Now() |
 | updatedAt      | DateTime  | UNIX TIMESTAMP       |Last Change|
