@@ -13,6 +13,18 @@
 - 3.[Konzept](#konzept)
   - 3.1 [Design der Entitäten](#design-der-entitäten--funktionale-amnforderung-1)
     - 3.1.1 [Tempöres Login](#temporäres-login-hier)
+  - 3.2 [Konzept Authentifizierung, Authorisierung sowie Security](#konzept-authentifizierung-authorisierung-sowie-security--funktionale-anforderung-2)
+    - 3.2.1 [Öffentlicher Ananmnesebogen Flow](#öffentlicher-ananmnesebogen-flow)
+    - 3.2.2 [Authorisierung mit der DB bzw. Queue](#authorisierung-mit-der-db-bzw-queue)
+    - 3.2.3 [Back Office](#back-office)
+  - 3.3 [Gedanken zu Security](#gedanken-zu-security)
+    - 3.3.1 [Frontend](#frontend)
+    - 3.3.2 [Backend](#backend)
+  - 3.4 [Konzept Performance Pitfalls](#konzept-performance-pitfalls--funktionale-anforderung-3)
+    - 3.4.1 [Pitfalls Performance - Öffentliche Applikation](#pitfalls-performance---öffentliche-applikation)
+    - 3.4.2 [Pitfalls Performance - Backoffice Applikation](#pitfalls-performance---backoffice-applikation)
+  - 3.5 [Backend - Technologie](#backend---technologie-funktionale-anforderung-4)
+  - 3.6 [Front - Technologie](#frontend---technologie-funktionale-anforderung-5)
 
 ## Aufgabenstellung
 
@@ -23,13 +35,13 @@ Aufgabe ist es eine zweiteilige Applikation zu bauen, bestehend aus einem Anamne
 #### Muss
 
 <ul>
-  <li id="functional-requirements-entities">1. Design der Applikation und Entitäten sollte einem nachvollziehbaren Konzept folgen</li>
+  <li id="functional-requirements-entities">1. Design der Applikation und Entitäten sollte einem nachvollziehbaren Konzept folgen (DONE)</li> 
+  <li id="functional-requirements-security">2.Konzepte für Authentifizierung/Autorisierung und Security für Backoffice Applikation und öffentlichem Anamnesebogen (DONE)</li> 
+  <li id="functional-requirements-performance-pitfalls">3.Performance Pitfalls sind entweder markiert als TODO oder entsprechend vermieden (DONE)</li> 
+  <li id="functional-requirements-backend-implementation">4.Backend ist implementiert mit NodeJS, TypeScript, MongoDB und einem GraphQL Interface (DONE)</li> 
+  <li id="functional-requirements-frontend-implementation">5.Frontend ist implementiert mit React oder Angular (WIP)</li>
 </ul>
-- Design der Applikation und Entitäten sollte einem nachvollziehbaren Konzept folgen
-- Konzepte für Authentifizierung/Autorisierung und Security für Backoffice Applikation und öffentlichem Anamnesebogen
-- Performance Pitfalls sind entweder markiert als TODO oder entsprechend vermieden
-- Backend ist implementiert mit NodeJS, TypeScript, MongoDB und einem GraphQL Interface
-- Frontend ist implementiert mit React oder Angular
+
 
 #### Optional
 
@@ -142,3 +154,88 @@ Es ist nicht notwendig die Applikation an allen Stellen zu 100% auszuprogrammier
 | createdAt      | DateTime  | UNIX TIMESTAMP       | Date.Now() |
 | updatedAt      | DateTime  | UNIX TIMESTAMP       |Last Change|
 | ...      | ...  |     ...   |...|
+
+### Konzept Authentifizierung, Authorisierung sowie Security -[Funktionale Anforderung-2](#functional-requirements-security)
+
+- genutzt wird ein sog. Secure Token Service - IAM Identity Access Management [Keycloak](https://www.keycloak.org)
+
+#### Öffentlicher Ananmnesebogen Flow
+
+- da jeder Benutzer diesen aufrufen kann scheint es wichtig die Authentifizierung durch zu führen
+- das kann jedoch **nicht**  mit Benutzernamen und zug. Passwort geschen
+- um die Identität des Benutzers zu überprüfen muss dieser eine E-Mailadresse bereitstellen auf die er Zugriff hat
+- an diese E-Mailadresse wird ein ein eindeutiger Link verschickt (email+guid)
+  - dieser Schlüssel wird in einer Datenbank persisiert
+  - ein Zeitstempel wird ebenfalls gespeichert
+  - der link sollte dann nur für eine gewisse Zeit gültig sein
+  - OPTIONAL: zusätzlich zu diesem Link könnte man ein one-time-password in einer separaten E-Mail verwenden
+- sobald der Benutzer den Link aus der E-Mail bestätigt, kann er das Anamneseformulat aufrufen
+
+#### Authorisierung mit der DB bzw. Queue
+
+- der Service der den Öffentlichen Anamnese Bogen bereitstellt hat nur eingeschränkten Zugriff
+- der Webclient wird mittels oAuth (Machine-to-Machine Kommunikation (ClientId and Secret)) authentifiziert und via eines scopes auf den Endpunkt "Anamnesis Post" zugelassen
+- in der Ausbaustufe greift die API nicht direkt auf die DB zu, sondern kann lediglich Nachrichten in eine Queue schreiben
+- ein weiterer Dienst kann dann die Nachricht validieren und die Daten in der DB persistieren
+
+#### Back Office
+
+- das Backoffice wird durch eine weitere Webapplikation bereit gestellt
+- das gibt die Möglichkeit es als Intranet zu konfigurieren und nur in eigenem Netzwerk zu erreichen via VPN (falls notwendig)
+- in diesem wird der sg. [Auth Code Flow PKE] (https://oauth.net/2/pkce/) implementiert 
+- der Benutzer wird mittels OpenIDConnect authentifiziert und via oAuth authorisiert
+- seine Authorisierung wird auf die Webappliaktion delegiert und dann via scopes konfiguriert
+
+### Gedanken zu Security
+
+#### Frontend
+
+- im Frontend werden Mechanismen integriert die Angriffe von außen erschweren und folgende Angriffe vermeiden sollen:
+  - Cross Site JavaScript Attacken (XSS)
+  - CSP Level 2 und Cross Site Request Forgery Attacken (CSRF)   
+  - SQL Injections
+
+#### Backend
+
+- im Backend werden Mechanismen integriert die Angriffe von außen erschweren
+- alle Anfragen sollten auf gültige Werte geprüft werden
+- Sonderzeichen sollten nicht zu gelassen werden
+- keine direkten Zugriffe auf die Datenbanken mit PLAIN SQL STATEMENTS, sonder store procedures nutzen
+
+### Konzept Performance Pitfalls -[Funktionale Anforderung-3](#functional-requirements-performance-pitfalls)
+
+
+#### Pitfalls Performance - Öffentliche Applikation
+
+- da der Anamnesebogen öffentlich verfügbar ist können rein theoretisch alle aktuellen Patienten der Schönklinikgruppe zugreigen, als auch potentielle neue Patienten, sowie Personen mit bösen Absichten
+- die Anzahl der Benutzer könnte sehr hoch sein
+- die Webapplikation kann horizontal skaliert werden und sollte somit der Last stand halten
+- der lesende Zugriff auf die Datenbank sollte ebenfalls kein Problem sein und kann bei Bedarf im CQRS Pattern skaliert und im Cluster berebereit gestellt werden (Lesender Zugriff)
+- die API die übermittelten Daten entgegen nimmt, kann ebenfalls skaliert werden
+- im Zielstatus werden die Daten nicht direkt in der DAtenbank persistiert, sondern in einer Queue abgelegt
+- somit sollten keine Performance Engpässe auftreten
+
+#### Pitfalls Performance - Backoffice Applikation
+
+- das diese Applikation nur von einer begrenzten Anzahl von authorisierten Benutzern genutzt wird, sollten sich hieraus keine Performance Engpässe ergeben
+
+### Backend - Technologie [Funktionale Anforderung-4](#functional-requirements-backend-implementation)
+
+- aktuell ist das Backend auf Basis des [fastify](https://fastify.dev) frameworks implementiert
+- das framework basiert auf nodeJs und kann mittels typescript implementiert werden
+- die API stellt einen Endpunkt via REST bereit und implemeniert einen graphQL Schnittstelle via [mercurius](https://mercurius.dev/#/)
+- als Datenbank ist ein mongoDB Atlas Cluster angebunden
+- als ORM ist [prisma](https://www.prisma.io) implementiert
+
+
+### Frontend - Technologie [Funktionale Anforderung-5](#functional-requirements-frontend-implementation)
+
+- das front end ist aktuell als [React Router 7](https://reactrouter.com) aka. Remix umgesetzt
+- es ist ein fullstack framework und biete unter anderem SSR, CSR, Data Loading, Routing
+- es ist ein idiomatisches Framework und versucht Standard Web API zu benutzen
+- als Templage Engine verwendet es "React 19"
+
+
+
+
+
