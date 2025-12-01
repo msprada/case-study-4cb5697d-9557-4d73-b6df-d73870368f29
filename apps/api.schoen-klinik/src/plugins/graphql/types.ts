@@ -20,12 +20,13 @@ export const schema = gql`
 
     type AnamnesisDocument {
         id: ID!
-        description: String!
-        email: String!
+        mainMedicalDisorder: String!
+        furtherMedicalDisorder:String
+        email: String
     }
 
     input CreateAnamnesisDocument {
-        description: String!
+        mainMedicalDisorder:String!
         email: String!
     }
 `;
@@ -37,7 +38,17 @@ export const resolvers: IResolvers = {
             parent: {},
             args: {},
             context: MercuriusContext
-        ): Promise<Array<{ id: string; description: string; email: string }>> => {
+        ): Promise<Array<{
+            id: string,
+            mainMedicalDisorder: string,
+            furtherMedicalDisorder: string | null,
+            since: Date | null,
+            notes: string | null,
+            email: string | null,
+            createdAt: Date,
+            updatedAt: Date,
+            userId: string | null
+        }>> => {
             const fastify = context.app as FastifyInstance;
             const prisma = fastify.prisma as PrismaClient;
 
