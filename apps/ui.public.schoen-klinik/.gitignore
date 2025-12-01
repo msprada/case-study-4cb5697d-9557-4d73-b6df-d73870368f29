@@ -1,0 +1,11 @@
+.DS_Store
+.env
+/node_modules/
+
+# React Router
+/.react-router/
+/build/
+
+#Prisma Generated Client and local DB
+/app/prisma/generated/
+/app/prisma/dev.db
