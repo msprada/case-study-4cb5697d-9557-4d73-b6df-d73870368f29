@@ -3,6 +3,7 @@
 import type { Route } from "./+types/anamnesis._index";
 import type { DataLine } from "~/components/tables/table-row";
 import Table from "~/components/tables/table";
+import { data } from "react-router";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -11,31 +12,40 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
+export async function loader({ params }: Route.LoaderArgs) {
+
+ const apiUrl = `${process.env.API_RESSOURCE_GRAPHQL_URL}`;
+   const payload = {"query": `query {  anamnesisDocuments{id mainMedicalDisorder email} }` }
+    const body = JSON.stringify(payload)
+
+    const res = await fetch(apiUrl, {
+      headers: {
+        // Authorization: `Bearer ${process.env.API_TOKEN}`,
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Accept': 'application/json'
+      },
+      method: "POST",
+      body: body,
+    });
+
+    const data = await res.json();
+    console.log("Response from API:", data);
 
 
-const dummyData: DataLine[] = [
-
-  {
-    "id": "1",
-    "email": "mail@test.de",
-    "status": "New"
-  },
-  {
-    "id": "2",
-    "email": "mail@test3.de",
-    "status": "In Progress"
-  },
-  {
-    "id": "3",
-    "email": "mail@test2.de",
-    "status": "Done"
-  }
-
-];
+  return { response: data }
+}
 
 
+export default function AnamnesisDocumentOverview({
+  loaderData
+}: Route.ComponentProps) {
 
-export default function AnamnesisDocumentOverview() {
+  const {response} = loaderData
+  const {data} = response;
+  const {anamnesisDocuments}  = data;
+  
+  const value= anamnesisDocuments as DataLine[];
 
   return (
     <>
@@ -45,7 +55,7 @@ export default function AnamnesisDocumentOverview() {
         <p>Hier sehen Sie die Übersicht der Anmeldungen.</p>
       </div>
 
-      <Table data={dummyData} />
+      <Table data={value} />
 
     </>
   )
