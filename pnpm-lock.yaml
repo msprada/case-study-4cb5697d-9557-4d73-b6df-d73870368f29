@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      prettier:
+        specifier: ^3.2.5
+        version: 3.7.0
       tsc:
         specifier: ^2.0.4
         version: 2.0.4
@@ -182,6 +185,9 @@ importers:
       typescript:
         specifier: ^5.9.2
         version: 5.9.3
+      utils-prettier-config:
+        specifier: workspace:*
+        version: link:../../packages/utils-prettier-config
       vite:
         specifier: ^7.1.7
         version: 7.2.4(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.1)
@@ -219,6 +225,12 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+
+  packages/utils-prettier-config:
+    dependencies:
+      prettier:
+        specifier: '>= 3'
+        version: 3.7.0
 
 packages:
 
