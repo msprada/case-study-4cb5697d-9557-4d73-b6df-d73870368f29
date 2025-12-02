@@ -1,5 +1,5 @@
 {
-  "name": "ui.public.react-router.schoen-klinik",
+  "name": "ui.public.schoen-klinik",
   "private": true,
   "type": "module",
   "scripts": {
@@ -20,7 +20,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router": "^7.9.2",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "packages.ui-components":"workspace:*"
   },
   "devDependencies": {
     "@react-router/dev": "^7.9.2",

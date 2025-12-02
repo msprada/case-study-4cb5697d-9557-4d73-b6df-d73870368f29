@@ -1,20 +1,21 @@
+import { Link } from "react-router"
 
 export type DataLine =
-    { id: string, email: string, status: 'New' | 'Done' | 'In Progress' }
+    { id: string,mainMedicalDisorder:string, email:string}
 
 
-export default function TableRow({ id, email, status }: DataLine) {
+export default function TableRow({ id, mainMedicalDisorder, email}: DataLine) {
 
     return (
         <div className="flex gap-4">
             <div>
-                {id}
-            </div>
-            <div >
-                {email}
+                <Link to={`/anamnesis/${id}`}>{id}</Link>
             </div>
             <div>
-                {status}
+                {mainMedicalDisorder}
+            </div>
+                <div>
+                {email}
             </div>
         </div>
     )

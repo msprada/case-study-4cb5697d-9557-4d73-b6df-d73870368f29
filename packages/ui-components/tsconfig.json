@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "rootDir": "src",
+        "outDir": "./dist",
+        "allowSyntheticDefaultImports": true,
+        "declaration": true,
+        "module": "nodenext",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

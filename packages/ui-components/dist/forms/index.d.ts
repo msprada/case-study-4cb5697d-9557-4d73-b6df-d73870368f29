@@ -1,0 +1,1 @@
+export * from './AnamnesisForm.js';

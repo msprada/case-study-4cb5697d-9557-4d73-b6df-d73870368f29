@@ -1,6 +1,7 @@
 import type { Route } from "./+types/anamnesis.$id";
 import { data, Form, Link } from "react-router";
 import prisma from "../utils/prisma.server";
+import { AnamnesisForm, type AnamnesisError } from 'packages.ui-components/forms';
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -29,7 +30,7 @@ export async function action({
   request,
 }: Route.ActionArgs) {
 
-  const errors = {} as { firstname?: string, lastname?: string, address?: string, mainMedicalDisorder?: string };
+  const errors = {} as AnamnesisError
   const formData = await request.formData();
   const firstname = formData.get("firstname");
   const lastname = formData.get("lastname");
@@ -117,11 +118,14 @@ export default function Anamnesis({
       {!submitted ? (
 
         <>
+
+
+
           <div className="flex flex-col mb-4">
             <h1>Anamnese Bogen</h1>
             <p>Bitte füllen Sie Anamnesebogen aus und best&auml;tigen Sie im Anschluss die Schaltfläche.</p>
           </div>
-          <Form method="post">
+          {/* <Form method="post">
             <legend className="mb-4"><i>Registrierungsformular</i></legend>
             <fieldset>
               <div className="flex flex-row justify-end gap-2 mb-4">
@@ -176,12 +180,14 @@ export default function Anamnesis({
               <button className="btn text-white bg-orange-500 rounded-full w-64" type="submit">Absenden</button>
             </div>
             <input type="hidden" value="dummy@mail.de" name="email"></input>
-          </Form>
+          </Form> */}
+
+          <AnamnesisForm errors={errors} />
         </>
-      ) :  <div className="flex flex-col mb-4">
-            <h1>Anamnese Bogen</h1>
-            <p>Der Bogen wurde erfolgreich versendet. Bitte warten Sie auf eine Rückmeldung unsererseits.</p>
-          </div>}
+      ) : <div className="flex flex-col mb-4">
+        <h1>Anamnese Bogen</h1>
+        <p>Der Bogen wurde erfolgreich versendet. Bitte warten Sie auf eine Rückmeldung unsererseits.</p>
+      </div>}
 
 
 
