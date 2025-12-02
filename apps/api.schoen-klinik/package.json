@@ -13,7 +13,7 @@
     "dev": "pnpm run clean && tsc -w & nodemon -q -w dist dist/app.js",
     "prisma:gen": "prisma generate --config ./src/plugins/database/prisma/prisma.config.ts",
     "prisma:db:push": "prisma db push --config ./src/plugins/database/prisma/prisma.config.ts",
-    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css,html}\""
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,html}\""
   },
   "keywords": [],
   "author": "Marcel Sprada",

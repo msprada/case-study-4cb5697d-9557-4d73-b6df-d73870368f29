@@ -6,7 +6,7 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css,html}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,html}\"",
     "typecheck": "react-router typegen && tsc",
     "prisma:gen": "prisma generate --config ./app/prisma/prisma.config.ts",
     "prisma:db:push": "prisma db push --config ./app/prisma/prisma.config.ts"
