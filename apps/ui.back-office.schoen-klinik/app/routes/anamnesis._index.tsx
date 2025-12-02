@@ -1,6 +1,6 @@
 
 
-import type { Route } from "./+types/anamnesis";
+import type { Route } from "./+types/anamnesis._index";
 import type { DataLine } from "~/components/tables/table-row";
 import Table from "~/components/tables/table";
 
@@ -39,8 +39,13 @@ export default function AnamnesisDocumentOverview() {
 
   return (
     <>
-      <h2>Übersicht der Anamnesebögen</h2>
-     <Table data={dummyData}/>
+
+      <div className="flex flex-col mb-4">
+        <h2>Übersicht der Anamnesebögen</h2>
+        <p>Hier sehen Sie die Übersicht der Anmeldungen.</p>
+      </div>
+
+      <Table data={dummyData} />
 
     </>
   )
