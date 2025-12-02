@@ -1,2 +1,1 @@
-export * from './AnamnesisForm.js'
-
+export * from './AnamnesisForm.js';

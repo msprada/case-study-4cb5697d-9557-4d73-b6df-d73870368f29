@@ -1,4 +1,4 @@
-import { Form } from "react-router";
+import { Form } from 'react-router';
 export type AnamnesisError = {
   firstname?: string;
   lastname?: string;
@@ -41,9 +41,7 @@ export function AnamnesisForm({
         <div className="flex flex-row justify-end gap-2 mb-4">
           <span>
             <strong>
-              {errors?.firstname ? (
-                <p style={{ color: "red" }}>{errors.firstname}</p>
-              ) : null}
+              {errors?.firstname ? <p style={{ color: 'red' }}>{errors.firstname}</p> : null}
             </strong>
           </span>
         </div>
@@ -61,9 +59,7 @@ export function AnamnesisForm({
         <div className="flex flex-row justify-end gap-2 mb-4">
           <span>
             <strong>
-              {errors?.lastname ? (
-                <p style={{ color: "red" }}>{errors.lastname}</p>
-              ) : null}
+              {errors?.lastname ? <p style={{ color: 'red' }}>{errors.lastname}</p> : null}
             </strong>
           </span>
         </div>
@@ -81,9 +77,7 @@ export function AnamnesisForm({
         <div className="flex flex-row justify-end gap-2 mb-4">
           <span>
             <strong>
-              {errors?.address ? (
-                <p style={{ color: "red" }}>{errors.address}</p>
-              ) : null}
+              {errors?.address ? <p style={{ color: 'red' }}>{errors.address}</p> : null}
             </strong>
           </span>
         </div>
@@ -103,7 +97,7 @@ export function AnamnesisForm({
           <span>
             <strong>
               {errors?.mainMedicalDisorder ? (
-                <p style={{ color: "red" }}>{errors.mainMedicalDisorder}</p>
+                <p style={{ color: 'red' }}>{errors.mainMedicalDisorder}</p>
               ) : null}
             </strong>
           </span>
@@ -120,10 +114,7 @@ export function AnamnesisForm({
         </div>
       </fieldset>
       <div className="flex flex-row justify-end gap-2 mb-4">
-        <button
-          className="btn text-white bg-orange-500 rounded-full w-64"
-          type="submit"
-        >
+        <button className="btn text-white bg-orange-500 rounded-full w-64" type="submit">
           Absenden
         </button>
       </div>

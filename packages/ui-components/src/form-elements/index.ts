@@ -1,1 +1,1 @@
-export * from './FormButton.js'
+export * from './FormButton.js';
