@@ -9,6 +9,8 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import logoDark from "./public/schoen-klinik-gruppe-rgb-negativ.svg";
+import logoLight from "./public/schoen-klinik-gruppe-rgb.svg";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -33,9 +35,29 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
+        <main className="flex items-center justify-center pt-16 pb-4">
+          <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
+            <header className="flex flex-col items-center gap-9">
+              <div className="w-[500px] max-w-[100vw] p-4">
+                <img
+                  src={logoLight}
+                  alt="React Router"
+                  className="block w-full dark:hidden"
+                />
+                <img
+                  src={logoDark}
+                  alt="React Router"
+                  className="hidden w-full dark:block"
+                />
+              </div>
+              <h1>Backoffice</h1>
+            </header>
+            {children}
+
+          </div>
+          <ScrollRestoration />
+          <Scripts />
+        </main>
       </body>
     </html>
   );
