@@ -26,6 +26,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 
   const res = await fetch(apiUrl, {
     headers: {
+      //TODO Implement oAUth as in concept 5167126b-83a8-462c-8137-c5f7d8ca564b
       // Authorization: `Bearer ${process.env.API_TOKEN}`,
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',

@@ -39,7 +39,7 @@ async function anamnesisRoutes(fastify: FastifyInstance, options: FastifyPluginO
           reply.code(400).send({ error: 'Email is required' });
           return;
         }
-
+        //TODO Extend to use all values send by request 4453e289-99c2-4adc-b5a7-d10340246bef
         const newAnamnesisDocument = await fastify.prisma.anamnesisDocument.create({
           data: {
             mainMedicalDisorder: mainMedicalDisorder,
