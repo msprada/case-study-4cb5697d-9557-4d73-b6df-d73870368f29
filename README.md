@@ -162,6 +162,7 @@ Es ist nicht notwendig die Applikation an allen Stellen zu 100% auszuprogrammier
 | furtherMedicalDisorder      | String?  |        ||
 | since      | DateTime  |        ||
 | notes      | String?  |        ||
+| status      | String  |default NEW        ||
 | User      | Object  |        |Relation to User Document|
 | createdAt      | DateTime  | UNIX TIMESTAMP       | Date.Now() |
 | updatedAt      | DateTime  | UNIX TIMESTAMP       |Last Change|
