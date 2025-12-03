@@ -22,6 +22,7 @@ export const schema = gql`
     id: ID!
     mainMedicalDisorder: String!
     furtherMedicalDisorder: String
+    status: String
     email: String
   }
 

@@ -14,6 +14,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Status {
+  NEW
+  PROGRESS
+  DONE
+  REOPEN
+}
+
 model AnamnesisDocument {
   id                     String   @id @default(uuid()) @map("_id")
   mainMedicalDisorder    String
@@ -23,6 +30,7 @@ model AnamnesisDocument {
   //TODO Implement Relation in Backenend - b07deec2-056f-4191-98f5-1415c8daa98b
   User                   User?    @relation(fields: [userId], references: [id])
   email                  String?
+  status                 Status   @default(NEW)
   createdAt              DateTime @default(now()) @map("created_at")
   updatedAt              DateTime @updatedAt @map("updated_at")
   userId                 String?

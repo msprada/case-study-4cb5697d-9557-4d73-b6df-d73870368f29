@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
 
-export type DataLine = { id: string; mainMedicalDisorder: string; email: string };
+export type DataLine = { id: string; mainMedicalDisorder: string; email: string; status: string };
 
-export default function TableRow({ id, mainMedicalDisorder, email }: DataLine) {
+export default function TableRow({ id, mainMedicalDisorder, email, status }: DataLine) {
   return (
     <div className="flex gap-4">
       <div>
@@ -10,6 +10,7 @@ export default function TableRow({ id, mainMedicalDisorder, email }: DataLine) {
       </div>
       <div>{mainMedicalDisorder}</div>
       <div>{email}</div>
+      <div>{status}</div>
     </div>
   );
 }

@@ -11,14 +11,17 @@ export type AnamisesFormFieldSet = {
   lastname?: string;
   address?: string;
   mainMedicalDisorder?: string;
+  status?:string,
 };
 
 export function AnamnesisForm({
   errors,
   formFieldValueSet,
+  showStatus,
 }: {
   errors: AnamnesisError | undefined;
   formFieldValueSet: AnamisesFormFieldSet | undefined;
+  showStatus:boolean
 }) {
   console.log({ formFieldValueSet });
 
@@ -28,6 +31,20 @@ export function AnamnesisForm({
         <i>Registrierungsformular</i>
       </legend>
       <fieldset>
+        {showStatus?( <div className="flex flex-row justify-end gap-2 mb-4">
+          <label htmlFor="status">Status:</label>
+          <input
+            className="border-2 boder-solid border-white"
+            aria-required
+            type="text"
+            name="status"
+            id="firstname"
+            placeholder={formFieldValueSet?.status}
+            disabled
+          />
+        </div>):(null)}
+       
+
         <div className="flex flex-row justify-end gap-2 mb-4">
           <label htmlFor="firstname">Vorname:</label>
           <input

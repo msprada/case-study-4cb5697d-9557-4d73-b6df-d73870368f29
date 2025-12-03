@@ -13,6 +13,7 @@ export default function Table({ data }: { data: DataLine[] }) {
               id={dataItem.id}
               mainMedicalDisorder={dataItem.mainMedicalDisorder}
               email={dataItem.email}
+              status={dataItem.status}
             />
           );
         })}
