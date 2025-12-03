@@ -12,7 +12,7 @@ export function meta({}: Route.MetaArgs) {
 
 export async function loader({ params }: Route.LoaderArgs) {
   const apiUrl = `${process.env.API_RESSOURCE_GRAPHQL_URL}`;
-  const payload = { query: `query {  anamnesisDocuments{id mainMedicalDisorder email} }` };
+  const payload = { query: `query {  anamnesisDocuments{id mainMedicalDisorder email status} }` };
   const body = JSON.stringify(payload);
 
   const res = await fetch(apiUrl, {

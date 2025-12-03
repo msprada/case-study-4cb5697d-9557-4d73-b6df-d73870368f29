@@ -19,6 +19,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     id
     mainMedicalDisorder
     email
+    status
   } }`,
   };
   const body = JSON.stringify(payload);
@@ -50,7 +51,11 @@ export default function AnamnesisDetailPage({ loaderData }: Route.ComponentProps
         <h1>Anamnese Bogen</h1>
         <p>Hier können Sie den Anamnesebogen editieren.</p>
       </div>
-      <AnamnesisForm errors={undefined} formFieldValueSet={{ ...anamnesisDocument }} />
+      <AnamnesisForm
+        errors={undefined}
+        formFieldValueSet={{ ...anamnesisDocument }}
+        showStatus={true}
+      />
     </>
   );
 }

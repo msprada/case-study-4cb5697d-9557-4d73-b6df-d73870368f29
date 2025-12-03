@@ -57,6 +57,7 @@ export type AnamnesisDocument = {
   id: Scalars["ID"];
   mainMedicalDisorder: Scalars["String"];
   furtherMedicalDisorder?: Maybe<Scalars["String"]>;
+  status?: Maybe<Scalars["String"]>;
   email?: Maybe<Scalars["String"]>;
 };
 
@@ -233,6 +234,7 @@ export type AnamnesisDocumentResolvers<
     ParentType,
     ContextType
   >;
+  status?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -274,6 +276,12 @@ export interface Loaders<
       TContext
     >;
     furtherMedicalDisorder?: LoaderResolver<
+      Maybe<Scalars["String"]>,
+      AnamnesisDocument,
+      {},
+      TContext
+    >;
+    status?: LoaderResolver<
       Maybe<Scalars["String"]>,
       AnamnesisDocument,
       {},
