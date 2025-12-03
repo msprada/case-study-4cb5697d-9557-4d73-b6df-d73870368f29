@@ -5,7 +5,7 @@
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
+    "start": "pnpm run build && PORT=3002 react-router-serve ./build/server/index.js",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,html}\"",
     "typecheck": "react-router typegen && tsc",
     "prisma:gen": "prisma generate --config ./app/prisma/prisma.config.ts",

@@ -63,8 +63,8 @@ dist
 # Env
 *.env
 
-#graphql Generated Files
-src/plugins/graphql/generated-files
+#graphql Generated Files (Important Files must be present, otherwise the autogen does not work)
+!src/plugins/graphql/generated-files
 
 #Prisma Generated Files
 src/plugins/database/prisma/generated
