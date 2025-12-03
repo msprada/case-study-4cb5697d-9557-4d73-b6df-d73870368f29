@@ -6,6 +6,7 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,html}\"",
     "typecheck": "react-router typegen && tsc",
     "prisma:gen": "prisma generate --config ./app/prisma/prisma.config.ts",
     "prisma:db:push": "prisma db push --config ./app/prisma/prisma.config.ts"
@@ -33,6 +34,8 @@
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",
     "vite": "^7.1.7",
-    "vite-tsconfig-paths": "^5.1.4"
-  }
+    "vite-tsconfig-paths": "^5.1.4",
+    "utils-prettier-config":"workspace:*"
+  },
+  "prettier": "utils-prettier-config"
 }

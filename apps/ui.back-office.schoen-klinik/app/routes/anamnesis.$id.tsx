@@ -1,12 +1,12 @@
-import { AnamnesisForm } from "packages.ui-components/forms";
-import type { Route } from "./+types/anamnesis.$id";
+import { AnamnesisForm } from 'packages.ui-components/forms';
+import type { Route } from './+types/anamnesis.$id';
 
-import "packages.ui-components/global.css";
+import 'packages.ui-components/global.css';
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Anamnesebogen" },
-    { name: "description", content: "Hier können Sie den Bogen editieren!" },
+    { title: 'Anamnesebogen' },
+    { name: 'description', content: 'Hier können Sie den Bogen editieren!' },
   ];
 }
 
@@ -26,22 +26,20 @@ export async function loader({ params }: Route.LoaderArgs) {
   const res = await fetch(apiUrl, {
     headers: {
       // Authorization: `Bearer ${process.env.API_TOKEN}`,
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      Accept: "application/json",
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      Accept: 'application/json',
     },
-    method: "POST",
+    method: 'POST',
     body: body,
   });
 
   const data = await res.json();
-  console.log("Response from API:", data);
+  console.log('Response from API:', data);
   return { response: data };
 }
 
-export default function AnamnesisDetailPage({
-  loaderData,
-}: Route.ComponentProps) {
+export default function AnamnesisDetailPage({ loaderData }: Route.ComponentProps) {
   const { response } = loaderData;
   const { data } = response;
   const { anamnesisDocument } = data;
@@ -52,10 +50,7 @@ export default function AnamnesisDetailPage({
         <h1>Anamnese Bogen</h1>
         <p>Hier können Sie den Anamnesebogen editieren.</p>
       </div>
-      <AnamnesisForm
-        errors={undefined}
-        formFieldValueSet={{ ...anamnesisDocument }}
-      />
+      <AnamnesisForm errors={undefined} formFieldValueSet={{ ...anamnesisDocument }} />
     </>
   );
 }

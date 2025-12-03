@@ -1,14 +1,11 @@
 //TODO Extend Schema and resolvers
 
-import { gql } from "mercurius-codegen";
-import { GraphQLError } from "graphql";
-import { type IResolvers, type MercuriusContext } from "mercurius";
-import type { MutationcreateAnamnesisDocumentArgs } from "./generated-files/generated.js";
-import type { FastifyInstance } from "fastify";
-import {
-  PrismaClient,
-  Prisma,
-} from "../database/prisma/generated/prisma/client.js";
+import { gql } from 'mercurius-codegen';
+import { GraphQLError } from 'graphql';
+import { type IResolvers, type MercuriusContext } from 'mercurius';
+import type { MutationcreateAnamnesisDocumentArgs } from './generated-files/generated.js';
+import type { FastifyInstance } from 'fastify';
+import { PrismaClient, Prisma } from '../database/prisma/generated/prisma/client.js';
 
 export const schema = gql`
   type Query {
@@ -40,7 +37,7 @@ export const resolvers: IResolvers = {
     anamnesisDocuments: async (
       parent: {},
       args: {},
-      context: MercuriusContext
+      context: MercuriusContext,
     ): Promise<
       Array<{
         id: string;
@@ -62,23 +59,22 @@ export const resolvers: IResolvers = {
         return resultSet.length ? resultSet : [];
       } catch (error: unknown) {
         switch (true) {
-          case error instanceof Prisma.PrismaClientKnownRequestError &&
-            error.code === "P2025":
+          case error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025':
             context.app.log.error(`Document not found: ${error.message}`);
-            throw new GraphQLError("Document not found", {
-              extensions: { code: "NOT_FOUND" },
+            throw new GraphQLError('Document not found', {
+              extensions: { code: 'NOT_FOUND' },
             });
 
           case error instanceof Error: {
             context.app.log.error(`Failed to receive data: ${error.message}`);
-            throw new GraphQLError("Could not read data from db.", {
-              extensions: { code: "INTERNAL_SERVER_ERROR" },
+            throw new GraphQLError('Could not read data from db.', {
+              extensions: { code: 'INTERNAL_SERVER_ERROR' },
             });
           }
 
           default:
-            throw new GraphQLError("Could not read data from db.", {
-              extensions: { code: "INTERNAL_SERVER_ERROR" },
+            throw new GraphQLError('Could not read data from db.', {
+              extensions: { code: 'INTERNAL_SERVER_ERROR' },
             });
         }
       }
@@ -86,7 +82,7 @@ export const resolvers: IResolvers = {
     anamnesisDocument: async (
       parent: {},
       args: { id: string },
-      context: MercuriusContext
+      context: MercuriusContext,
     ): Promise<{
       id: string;
       mainMedicalDisorder: string;
@@ -122,23 +118,22 @@ export const resolvers: IResolvers = {
             });
       } catch (error: unknown) {
         switch (true) {
-          case error instanceof Prisma.PrismaClientKnownRequestError &&
-            error.code === "P2025":
+          case error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025':
             context.app.log.error(`Document not found: ${error.message}`);
-            throw new GraphQLError("Document not found", {
-              extensions: { code: "NOT_FOUND" },
+            throw new GraphQLError('Document not found', {
+              extensions: { code: 'NOT_FOUND' },
             });
 
           case error instanceof Error: {
             context.app.log.error(`Failed to receive data: ${error.message}`);
-            throw new GraphQLError("Could not read data from db.", {
-              extensions: { code: "INTERNAL_SERVER_ERROR" },
+            throw new GraphQLError('Could not read data from db.', {
+              extensions: { code: 'INTERNAL_SERVER_ERROR' },
             });
           }
 
           default:
-            throw new GraphQLError("Could not read data from db.", {
-              extensions: { code: "INTERNAL_SERVER_ERROR" },
+            throw new GraphQLError('Could not read data from db.', {
+              extensions: { code: 'INTERNAL_SERVER_ERROR' },
             });
         }
       }
@@ -148,7 +143,7 @@ export const resolvers: IResolvers = {
     createAnamnesisDocument: async (
       parent: {},
       args: MutationcreateAnamnesisDocumentArgs,
-      context: MercuriusContext
+      context: MercuriusContext,
     ) => {
       const fastify = context.app as FastifyInstance;
       const prisma = fastify.prisma as PrismaClient;
@@ -161,23 +156,21 @@ export const resolvers: IResolvers = {
           },
         });
 
-        context.app.log.info("Creating new anamnesis document");
+        context.app.log.info('Creating new anamnesis document');
         return created;
       } catch (error: unknown) {
         switch (true) {
-          case error instanceof Error && error.message.includes("validation"):
-            context.app.log.error(
-              `Failed to create anamnesis document: ${error.message}`
-            );
-            throw new GraphQLError("Invalid input data", {
-              extensions: { code: "BAD_USER_INPUT" },
+          case error instanceof Error && error.message.includes('validation'):
+            context.app.log.error(`Failed to create anamnesis document: ${error.message}`);
+            throw new GraphQLError('Invalid input data', {
+              extensions: { code: 'BAD_USER_INPUT' },
             });
           default: {
             context.app.log.error(
-              `Failed to create anamnesis document resulting following: ${String(error)}`
+              `Failed to create anamnesis document resulting following: ${String(error)}`,
             );
-            throw new GraphQLError("Failed to create anamnesis document", {
-              extensions: { code: "INTERNAL_SERVER_ERROR" },
+            throw new GraphQLError('Failed to create anamnesis document', {
+              extensions: { code: 'INTERNAL_SERVER_ERROR' },
             });
           }
         }

@@ -5,23 +5,23 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "react-router";
+} from 'react-router';
 
-import type { Route } from "./+types/root";
-import "./app.css";
-import logoDark from "./public/schoen-klinik-gruppe-rgb-negativ.svg";
-import logoLight from "./public/schoen-klinik-gruppe-rgb.svg";
+import type { Route } from './+types/root';
+import './app.css';
+import logoDark from './public/schoen-klinik-gruppe-rgb-negativ.svg';
+import logoLight from './public/schoen-klinik-gruppe-rgb.svg';
 
 export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
+    rel: 'preconnect',
+    href: 'https://fonts.gstatic.com',
+    crossOrigin: 'anonymous',
   },
   {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
   },
 ];
 
@@ -39,21 +39,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
             <header className="flex flex-col items-center gap-9">
               <div className="w-[500px] max-w-[100vw] p-4">
-                <img
-                  src={logoLight}
-                  alt="React Router"
-                  className="block w-full dark:hidden"
-                />
-                <img
-                  src={logoDark}
-                  alt="React Router"
-                  className="hidden w-full dark:block"
-                />
+                <img src={logoLight} alt="React Router" className="block w-full dark:hidden" />
+                <img src={logoDark} alt="React Router" className="hidden w-full dark:block" />
               </div>
               <h1>Backoffice</h1>
             </header>
             {children}
-
           </div>
           <ScrollRestoration />
           <Scripts />
@@ -68,16 +59,14 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
+  let message = 'Oops!';
+  let details = 'An unexpected error occurred.';
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
+    message = error.status === 404 ? '404' : 'Error';
     details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
+      error.status === 404 ? 'The requested page could not be found.' : error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
     stack = error.stack;

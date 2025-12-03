@@ -6,7 +6,8 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf && tsc"
+    "build": "rm -rf && tsc",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,html}\""
   },
   "keywords": [],
   "author": "",
@@ -18,7 +19,8 @@
     "@types/node": "^24.10.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+     "utils-prettier-config":"workspace:*"
   },
   "dependencies": {
     "react": "^19.1.1",
@@ -30,5 +32,6 @@
     "./forms": "./dist/forms/index.js",
     "./form-elements": "./dist/form-elements/index.js",
     "./global.css": "./src/styles/global.css"
-  }
+  },
+  "prettier": "utils-prettier-config"
 }
