@@ -10,6 +10,7 @@
     - [2.1.2 Anamnesebogen (AB)](#212-anamnesebogen-ab)
       - [AB - Prozess](#ab---prozess)
     - [2.1.3 Persistierung der Anamnese Daten](#213-persistierung-der-anamnese-daten)
+  - [2.2 Back Office](#22-backoffice)
 - [3. Konzept](#3-konzept)
   - [3.1 Design der Entitäten](#31-design-der-entitäten--funktionale-anforderung-1)
     - [3.1.1 Tempöres Login](#311-temporäres-login-link-zur-story)
@@ -119,6 +120,19 @@ Es ist nicht notwendig die Applikation an allen Stellen zu 100% auszuprogrammier
 
 - via listener auf der queue werden die Nachrichten entpackt und die resultierenden Daten in der MongoDB persisitert
   - Struktur: tbd
+
+### 2.2 Backoffice
+
+- an dem Flow sind zwei Systeme beteiligt
+  - zum einen ui.back-office.schoen-klinik (Web Applikation) **und**
+  - zum anderen api.schoen-klinik (Web API graphql Interface)
+
+- authentifizierte Benutzer können sich mit gültigem Benutzername und Passwort am System anmelden (OPEN)
+- danch gelangen Sie aud die "Homepage"
+- dort können Sie via Link die Übersicht der eingegangenen Anamnesebögen aufrufen
+- von dort aus gelangen Sie auf das einzelne Formular
+- dieses können Sie dann editieren und u.a. den Status setzen **und**
+- die Änderung speichern (WIP)
 
 ## 3. Konzept
 
