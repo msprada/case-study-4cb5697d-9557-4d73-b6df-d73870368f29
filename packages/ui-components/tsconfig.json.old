@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "jsx": "react-jsx",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "module":"nodenext", 
+    "declaration": true,
+    "skipLibCheck": true,   
+    "rootDir": "src",
+    "baseUrl": "./",
+    "paths": {
+      "@forms/": ["src/forms/"],
+      "@forms/*": ["src/forms/*"],
+      "@form-elements/": ["src/forms/"],
+      "@form-elements/*": ["src/forms/*"],
+    }
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"],
+}

@@ -25,6 +25,7 @@
     - 3.4.2 [Pitfalls Performance - Backoffice Applikation](#pitfalls-performance---backoffice-applikation)
   - 3.5 [Backend - Technologie](#backend---technologie-funktionale-anforderung-4)
   - 3.6 [Front - Technologie](#frontend---technologie-funktionale-anforderung-5)
+  4. [Demo](#demo)
 
 ## Aufgabenstellung
 
@@ -234,6 +235,49 @@ Es ist nicht notwendig die Applikation an allen Stellen zu 100% auszuprogrammier
 - es ist ein fullstack framework und biete unter anderem SSR, CSR, Data Loading, Routing
 - es ist ein idiomatisches Framework und versucht Standard Web API zu benutzen
 - als Templage Engine verwendet es "React 19"
+
+## Demo 
+- um die Applikation bestehend aus drei Applikationen, sowie einem extern bereitgestelltem Service in einer Docker Container und einer shared-ui-lib sind folgende Schritte notwendig:
+
+  - 1. Datenbank für die api.schoen-klinik bereitstellen
+  - 2. ORM aktualiesieren und Datenbank mit Schema befüllen
+  - 3. api.schoen-klinik starten
+  - 4. ui.public-schoen-klinik starten
+  - 5. ui.back-office.schoen-klinik starten
+
+- Schritte 2,3,4 sind in einem Script aggregiert. **WICHTIG**: Die Datenbank muss via Docker bereit gesellt sein! 
+  - dazu bitte folgendes im Terminal eingeben
+  
+  ```
+  pnpm start:demo
+  ```
+  - danach sollten die Applikatinen bereit stellen
+
+  - aktuell werden keine Daten "generiert" (kein Seed)
+
+  - deshalb erst die [Public Page](http://localhost:3002) aufrufen einen Datensatz erfassen und __danach__ das [Back-Office](http://localhost:3001)
+
+
+### Voraussetzungen
+
+- **INFO**: 
+  - das gesamte Setup wurde auf einem Mac bereit gestellt, auf Windows Maschinen könnten einige Komponente fehlen oder Skripte nicht funktionieren da bestimmte Operatoren genutzt wurden (&&, oder rm)
+  - die Case Study hat nicht den Anspruch auf Vollständigkeit
+
+- [docker](https://www.docker.com) ist auf dem Rechner verfügbar und docker-compose ist als Erweiterung installiert
+- das lokale Datenbankcluster wurde gestartet
+  ```
+  cd /ops/db
+  docker compose up -d //detached mode recommended
+  ```
+
+  - details findet man im entsprechenden [Folder](ops/db/README.md)
+
+
+  
+  
+
+
 
 
 

@@ -4,15 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:packages": "pnpm --filter packages.ui-components run build",
+    "start:demo":"pnpm run prisma && concurrently --kill-others 'pnpm --filter api.schoen-klinik dev' 'pnpm --filter ui.public.schoen-klinik dev' 'pnpm --filter ui.back-office.schoen-klinik dev' ",
+    "prisma": "pnpm --filter api.schoen-klinik prisma:gen && pnpm --filter api.schoen-klinik run prisma:db:push && pnpm --filter ui.public.schoen-klinik run prisma:gen && pnpm --filter ui.public.schoen-klinik run prisma:db:push"
   },
   "keywords": [],
   "author": "Marcel Sprada",
   "license": "ISC",
   "packageManager": "pnpm@10.6.1",
   "devDependencies": {
-    "tsc": "^2.0.4",
-    "prettier": "^3.2.5"
-
+    "concurrently": "^9.2.1",
+    "prettier": "^3.2.5",
+    "tsc": "^2.0.4"
   }
 }
+
